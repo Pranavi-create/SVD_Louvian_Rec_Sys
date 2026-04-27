@@ -63,7 +63,6 @@ SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring on
 ├── .gitignore
 ├── checkpoints/
 │   ├── checkpoint_1_EDA.ipynb       ← CP1: Exploratory Data Analysis
-│   ├── checkpoint_1_analysis.ipynb  ← CP1: Extended analysis
 │   └── checkpoint_2.ipynb           ← CP2: Research Question Formation
 ├── notebooks/
 │   ├── svd_bias_analysis.ipynb      ← λ & k hyperparameter sweep
