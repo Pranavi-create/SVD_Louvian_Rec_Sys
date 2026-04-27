@@ -1,7 +1,8 @@
 # SVD vs. SVD + Louvain Re-ranking for Popularity-Diverse Movie Recommendations
 
 **Course:** Data Mining and Applications 
-**Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 &nbsp;|&nbsp; **Author:** Pranavi Pathakota
+**Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 &nbsp;
+
 
 Recommender systems trained on popularity-skewed data tend to recommend the same blockbusters to everyone. This project asks: can we break that loop using graph structure? We build two pipelines on MovieLens 10M — a bias-corrected SVD baseline and an SVD + Louvain re-ranker that enforces community diversity — and measure the diversity–accuracy trade-off head-to-head.
 
@@ -46,27 +47,6 @@ SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring on
 
 **Key insight:** SVD scores are never modified. The re-ranker only controls *which* candidates make the final list — walking down SVD-ranked candidates and picking at most one movie per Louvain community per pass.
 
-### Greedy Re-ranking Algorithm
-
-```python
-def rerank_with_communities(svd_candidates, movie_community, k=10):
-    selected, seen_comms, fallback = [], set(), []
-    for movie in svd_candidates:
-        comm = movie_community.get(movie)
-        if comm is None or comm not in seen_comms:
-            selected.append(movie)
-            if comm is not None:
-                seen_comms.add(comm)
-        else:
-            fallback.append(movie)
-        if len(selected) == k:
-            break
-    for movie in fallback:
-        if len(selected) == k:
-            break
-        selected.append(movie)
-    return selected[:k]
-```
 
 ---
 
@@ -80,7 +60,6 @@ def rerank_with_communities(svd_candidates, movie_community, k=10):
 ├── .gitignore
 ├── checkpoints/
 │   ├── checkpoint_1_EDA.ipynb       ← CP1: Exploratory Data Analysis
-│   ├── checkpoint_1_analysis.ipynb  ← CP1: Extended analysis
 │   └── checkpoint_2.ipynb           ← CP2: Research Question Formation
 ├── notebooks/
 │   ├── svd_bias_analysis.ipynb      ← λ & k hyperparameter sweep
@@ -141,6 +120,29 @@ Run notebooks in this order if starting from scratch:
 
 ---
 
+### Greedy Re-ranking Algorithm
+
+```python
+def rerank_with_communities(svd_candidates, movie_community, k=10):
+    selected, seen_comms, fallback = [], set(), []
+    for movie in svd_candidates:
+        comm = movie_community.get(movie)
+        if comm is None or comm not in seen_comms:
+            selected.append(movie)
+            if comm is not None:
+                seen_comms.add(comm)
+        else:
+            fallback.append(movie)
+        if len(selected) == k:
+            break
+    for movie in fallback:
+        if len(selected) == k:
+            break
+        selected.append(movie)
+    return selected[:k]
+```
+
+--- 
 ## EDA Key Findings
 
 - **99.96% sparsity** — most user–movie pairs are unobserved
@@ -166,15 +168,6 @@ Run notebooks in this order if starting from scratch:
 
 Full list: [`requirements.txt`](requirements.txt)
 
----
-
-## Course Connections
-
-| Technique | Course Topic |
-|-----------|-------------|
-| SVD (bias-corrected) | Week 5 — Matrix Factorization |
-| Louvain community detection | Weeks 3–4 — Graph Mining |
-| Jaccard similarity | Week 2 — Similarity Measures |
 
 ---
 
