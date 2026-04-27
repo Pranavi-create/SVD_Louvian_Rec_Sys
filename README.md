@@ -10,7 +10,9 @@ Recommender systems trained on popularity-skewed data tend to recommend the same
 
 ## Quick Start
 
-**[👉 Open main_notebook.ipynb](main_notebook.ipynb)** — the full implementation, all figures, and written answer in one place.
+**[👉 Open main_notebook.ipynb](main_notebook.ipynb)** 
+
+## YouTube Link
 
 **[🎥 Watch on YouTube](https://www.youtube.com/watch?v=INDIs76RLnA)**
 
