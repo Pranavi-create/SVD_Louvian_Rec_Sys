@@ -41,7 +41,10 @@ SVD+Louvain **reduces head-movie fraction** measurably (confirming H-A) while in
 ├── checkpoints/
 │   ├── checkpoint_1_EDA.ipynb   ← CP1: Exploratory Data Analysis
 │   └── checkpoint_2.ipynb       ← CP2: Research Question Formation
-├── assets/                      ← All generated figures
+├── notebooks/
+│   ├── svd_bias_analysis.ipynb  ← Method A: SVD Analysis 
+│   ├── louvain_community_analysis.ipynb           
+├── assets/                      ← Method B: Louvain Analysis
 │   └── *.png
 └── data/
     └── ml-10M100K/              ← MovieLens 10M (see Data section below)
