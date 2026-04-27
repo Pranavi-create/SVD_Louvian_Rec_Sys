@@ -1,7 +1,7 @@
 # SVD vs. SVD + Louvain Re-ranking for Popularity-Diverse Movie Recommendations
 
 **Course:** Data Mining and Applications 
-**Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 
+**Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 &nbsp;|&nbsp; **Author:** Pranavi Pathakota
 
 Recommender systems trained on popularity-skewed data tend to recommend the same blockbusters to everyone. This project asks: can we break that loop using graph structure? We build two pipelines on MovieLens 10M — a bias-corrected SVD baseline and an SVD + Louvain re-ranker that enforces community diversity — and measure the diversity–accuracy trade-off head-to-head.
 
@@ -9,11 +9,7 @@ Recommender systems trained on popularity-skewed data tend to recommend the same
 
 ## Quick Start
 
-**[👉 Open main_notebook.ipynb](main_notebook.ipynb)** 
-
----
-
-## YouTube Link
+**[👉 Open main_notebook.ipynb](main_notebook.ipynb)** — the full implementation, all figures, and written answer in one place.
 
 **[🎥 Watch on YouTube](https://www.youtube.com/watch?v=INDIs76RLnA)**
 
@@ -30,13 +26,12 @@ Recommender systems trained on popularity-skewed data tend to recommend the same
 | H-A | SVD+Louvain reduces `head_rec_frac` | ✅ Confirmed |
 | H-B | Small drop in P@10 / nDCG@10 | ✅ Confirmed |
 | H-C | SVD+Louvain improves tail P@10 | ✅ Marginal |
-| H-D | Lower Gini exposure coefficient | ✅ Confirmed |
 
 ---
 
 ## Results Summary
 
-SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring only a **small precision cost** (H-B). Full figures and quantitative table are in `main_notebook.ipynb`.
+SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring only a **small precision cost** (H-B). The trade-off curve shows diminishing diversity returns past ~3 community slots — meaning most of the gain comes cheaply, and `max_per_comm=2` is a practical sweet spot for real applications. Full figures and quantitative table are in `main_notebook.ipynb`.
 
 ---
 
@@ -51,6 +46,28 @@ SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring on
 
 **Key insight:** SVD scores are never modified. The re-ranker only controls *which* candidates make the final list — walking down SVD-ranked candidates and picking at most one movie per Louvain community per pass.
 
+### Greedy Re-ranking Algorithm
+
+```python
+def rerank_with_communities(svd_candidates, movie_community, k=10):
+    selected, seen_comms, fallback = [], set(), []
+    for movie in svd_candidates:
+        comm = movie_community.get(movie)
+        if comm is None or comm not in seen_comms:
+            selected.append(movie)
+            if comm is not None:
+                seen_comms.add(comm)
+        else:
+            fallback.append(movie)
+        if len(selected) == k:
+            break
+    for movie in fallback:
+        if len(selected) == k:
+            break
+        selected.append(movie)
+    return selected[:k]
+```
+
 ---
 
 ## Repository Structure
@@ -63,6 +80,7 @@ SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring on
 ├── .gitignore
 ├── checkpoints/
 │   ├── checkpoint_1_EDA.ipynb       ← CP1: Exploratory Data Analysis
+│   ├── checkpoint_1_analysis.ipynb  ← CP1: Extended analysis
 │   └── checkpoint_2.ipynb           ← CP2: Research Question Formation
 ├── notebooks/
 │   ├── svd_bias_analysis.ipynb      ← λ & k hyperparameter sweep
@@ -123,30 +141,6 @@ Run notebooks in this order if starting from scratch:
 
 ---
 
-### Greedy Re-ranking Algorithm
-
-```python
-def rerank_with_communities(svd_candidates, movie_community, k=10):
-    selected, seen_comms, fallback = [], set(), []
-    for movie in svd_candidates:
-        comm = movie_community.get(movie)
-        if comm is None or comm not in seen_comms:
-            selected.append(movie)
-            if comm is not None:
-                seen_comms.add(comm)
-        else:
-            fallback.append(movie)
-        if len(selected) == k:
-            break
-    for movie in fallback:
-        if len(selected) == k:
-            break
-        selected.append(movie)
-    return selected[:k]
-```
-
----
-
 ## EDA Key Findings
 
 - **99.96% sparsity** — most user–movie pairs are unobserved
@@ -171,6 +165,16 @@ def rerank_with_communities(svd_candidates, movie_community, k=10):
 | seaborn | 0.13.2 |
 
 Full list: [`requirements.txt`](requirements.txt)
+
+---
+
+## Course Connections
+
+| Technique | Course Topic |
+|-----------|-------------|
+| SVD (bias-corrected) | Week 5 — Matrix Factorization |
+| Louvain community detection | Weeks 3–4 — Graph Mining |
+| Jaccard similarity | Week 2 — Similarity Measures |
 
 ---
 
