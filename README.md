@@ -10,6 +10,9 @@ Recommender systems trained on popularity-skewed data tend to recommend the same
 ## Quick Start
 
 **[👉 Open main_notebook.ipynb](main_notebook.ipynb)** 
+
+---
+
 **[🎥 Watch on YouTube](https://www.youtube.com/watch?v=INDIs76RLnA)**
 
 ---
@@ -31,7 +34,7 @@ Recommender systems trained on popularity-skewed data tend to recommend the same
 
 ## Results Summary
 
-SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring only a **small precision cost** (H-B). The trade-off curve shows diminishing diversity returns past ~3 community slots — meaning most of the gain comes cheaply, and `max_per_comm=2` is a practical sweet spot for real applications. Full figures and quantitative table are in `main_notebook.ipynb`.
+SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring only a **small precision cost** (H-B). Full figures and quantitative table are in `main_notebook.ipynb`.
 
 ---
 
@@ -45,28 +48,6 @@ SVD+Louvain **measurably reduces head-movie dominance** (H-A) while incurring on
 | Extra variable | — | Louvain community membership |
 
 **Key insight:** SVD scores are never modified. The re-ranker only controls *which* candidates make the final list — walking down SVD-ranked candidates and picking at most one movie per Louvain community per pass.
-
-### Greedy Re-ranking Algorithm
-
-```python
-def rerank_with_communities(svd_candidates, movie_community, k=10):
-    selected, seen_comms, fallback = [], set(), []
-    for movie in svd_candidates:
-        comm = movie_community.get(movie)
-        if comm is None or comm not in seen_comms:
-            selected.append(movie)
-            if comm is not None:
-                seen_comms.add(comm)
-        else:
-            fallback.append(movie)
-        if len(selected) == k:
-            break
-    for movie in fallback:
-        if len(selected) == k:
-            break
-        selected.append(movie)
-    return selected[:k]
-```
 
 ---
 
@@ -138,6 +119,30 @@ Run notebooks in this order if starting from scratch:
 3. `main_notebook.ipynb` — Full pipeline & results
 
 > **Note:** Cell 4.2 (co-rating graph projection) takes 5–20 min on CPU. All other cells are fast.
+
+---
+
+### Greedy Re-ranking Algorithm
+
+```python
+def rerank_with_communities(svd_candidates, movie_community, k=10):
+    selected, seen_comms, fallback = [], set(), []
+    for movie in svd_candidates:
+        comm = movie_community.get(movie)
+        if comm is None or comm not in seen_comms:
+            selected.append(movie)
+            if comm is not None:
+                seen_comms.add(comm)
+        else:
+            fallback.append(movie)
+        if len(selected) == k:
+            break
+    for movie in fallback:
+        if len(selected) == k:
+            break
+        selected.append(movie)
+    return selected[:k]
+```
 
 ---
 
