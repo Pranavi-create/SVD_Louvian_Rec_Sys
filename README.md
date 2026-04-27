@@ -9,8 +9,7 @@ Recommender systems trained on popularity-skewed data tend to recommend the same
 
 ## Quick Start
 
-**[👉 Open main_notebook.ipynb](main_notebook.ipynb)** — the full implementation, all figures, and written answer in one place.
-
+**[👉 Open main_notebook.ipynb](main_notebook.ipynb)** 
 **[🎥 Watch on YouTube](https://www.youtube.com/watch?v=INDIs76RLnA)**
 
 ---
@@ -166,17 +165,6 @@ Run notebooks in this order if starting from scratch:
 | seaborn | 0.13.2 |
 
 Full list: [`requirements.txt`](requirements.txt)
-
----
-
-## Course Connections
-
-| Technique | Course Topic |
-|-----------|-------------|
-| SVD (bias-corrected) | Week 5 — Matrix Factorization |
-| Louvain community detection | Weeks 3–4 — Graph Mining |
-| Jaccard similarity | Week 2 — Similarity Measures |
-| Gini coefficient | Week 1 — Data Characterization |
 
 ---
 
