@@ -1,7 +1,7 @@
 # SVD vs. SVD + Louvain Re-ranking for Popularity-Diverse Movie Recommendations
 
 **Course:** Data Mining and Applications 
-**Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 &nbsp;|&nbsp; **Author:** Pranavi Pathakota
+**Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 
 
 Recommender systems trained on popularity-skewed data tend to recommend the same blockbusters to everyone. This project asks: can we break that loop using graph structure? We build two pipelines on MovieLens 10M — a bias-corrected SVD baseline and an SVD + Louvain re-ranker that enforces community diversity — and measure the diversity–accuracy trade-off head-to-head.
 
