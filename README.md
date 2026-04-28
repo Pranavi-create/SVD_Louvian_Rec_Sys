@@ -1,6 +1,6 @@
 # SVD vs. SVD + Louvain Re-ranking for Popularity-Diverse Movie Recommendations
 
-**Course:** Data Mining and Applications 
+**Course:** Data Mining and Analysis
 **Dataset:** MovieLens 10M &nbsp;|&nbsp; **Python:** 3.8 &nbsp;
 
 
