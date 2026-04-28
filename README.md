@@ -172,6 +172,7 @@ Full list: [`requirements.txt`](requirements.txt)
 
 
 ---
+## References
 
 *Harper, F.M. & Konstan, J.A. (2015). The MovieLens Datasets. ACM TIIS.*
 *Blondel et al. (2008). Fast unfolding of communities in large networks. J. Stat. Mech.*
